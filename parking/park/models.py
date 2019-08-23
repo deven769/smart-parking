@@ -10,25 +10,38 @@ from django.contrib.auth.models import AbstractUser
 #     # add additional fields in here
 #     licence_image = models.ImageField(upload_to='images/', blank=True)
 
-class UserLicence(models.Model):
-    licence_image = models.ImageField(upload_to='images/', blank=True)
-    customer = models.ForeignKey(User, on_delete=models.CASCADE)
-
 
 class Park(models.Model):
     location = models.CharField(max_length=30)
     name = models.CharField(max_length=30)
     category = models.CharField(max_length=30)
-    customer = models.ForeignKey(User, on_delete=models.CASCADE)
+    capasity = models.IntegerField()
+    free_slots = models.IntegerField()
+    # customer = models.ForeignKey(User, on_delete=models.CASCADE)
     # customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.location
+
+
+class UserLicence(models.Model):
+    licence_image = models.ImageField(upload_to='images/', blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    park = models.ForeignKey(Park, related_name='_park',
+                             on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username
 
 
 class ParkSlot(models.Model):
     slot_number = models.IntegerField()
-    free = models.BooleanField()
-    occupied = models.BooleanField()
+
     park = models.ForeignKey(Park, related_name='parks',
                              on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.slot_number) + ">" + str(self.park.location)
 
 
 class Feasibility(models.Model):
@@ -37,3 +50,6 @@ class Feasibility(models.Model):
     price = models.IntegerField()
     park_slot = models.ForeignKey(
         ParkSlot, related_name='slots', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "Feasibility"

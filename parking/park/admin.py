@@ -1,4 +1,5 @@
 from django.contrib import admin
+from .models import UserLicence, Park, ParkSlot, Feasibility
 
 # Register your models here.
 # from django.contrib import admin
@@ -16,3 +17,6 @@ from django.contrib import admin
 #     list_display = ['email', 'username', 'licence_image']
 
 # admin.site.register(CustomUser, CustomUserAdmin)
+
+
+admin.site.register([UserLicence, ParkSlot, Park, Feasibility])
