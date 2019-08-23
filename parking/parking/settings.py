@@ -131,4 +131,4 @@ MEDIA_ROOT = (
 )
 
 
-# AUTH_USER_MODEL = 'park.CustomUser'
+AUTH_USER_MODEL = 'park.User'
